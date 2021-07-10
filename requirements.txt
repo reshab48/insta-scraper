@@ -22,10 +22,12 @@ pyasn1-modules==0.2.8
 pycparser==2.20
 PyDispatcher==2.0.5
 pyOpenSSL==20.0.1
+PySocks==1.7.1
 queuelib==1.6.1
 Scrapy==2.5.0
 service-identity==21.1.0
 six==1.16.0
+stem==1.8.0
 Twisted==21.2.0
 w3lib==1.22.0
 zope.interface==5.4.0

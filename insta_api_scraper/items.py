@@ -5,6 +5,9 @@
 
 import scrapy
 
+class UsernameItem(scrapy.Item):
+    username = scrapy.Field(serializer=str)
+
 class PostItem(scrapy.Item):
     link = scrapy.Field(serailizer=str)
     likes = scrapy.Field(serailizer=int)

@@ -49,7 +49,9 @@ DOWNLOAD_DELAY = 3
 # See https://docs.scrapy.org/en/latest/topics/downloader-middleware.html
 DOWNLOADER_MIDDLEWARES = {
     'scrapy.downloadermiddlewares.useragent.UserAgentMiddleware': None,
-    'insta_api_scraper.middlewares.InstaApiScraperDownloaderMiddleware': 400
+    'insta_api_scraper.middlewares.InstaApiScraperDownloaderMiddleware': 400,
+    'scrapy.downloadermiddlewares.httpproxy.HttpProxyMiddleware': 110,
+    'insta_api_scraper.middlewares.ProxyMiddleware': 403
 }
 
 # Enable or disable extensions

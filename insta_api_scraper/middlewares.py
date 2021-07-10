@@ -6,6 +6,9 @@ import random
 
 from scrapy import signals
 
+from stem import Signal
+from stem.control import Controller
+
 # useful for handling different item types with a single interface
 from itemadapter import is_item, ItemAdapter
 
@@ -117,3 +120,21 @@ class InstaApiScraperDownloaderMiddleware:
 
     def spider_opened(self, spider):
         spider.logger.info('Spider opened: %s' % spider.name)
+
+def _set_new_ip():
+    with Controller.from_port(port=9051) as controller:
+        controller.authenticate(password='insta_pass')
+        controller.signal(Signal.NEWNYM)
+
+class ProxyMiddleware(object):
+
+    def process_response(self, request, response, spider):
+        if response.status != 200:
+            _set_new_ip()
+            return request
+        return response
+
+    def process_request(self, request, spider):
+        _set_new_ip()
+        request.meta['proxy'] = 'http://127.0.0.1:8118'
+        spider.log('Proxy : %s' % request.meta['proxy'])

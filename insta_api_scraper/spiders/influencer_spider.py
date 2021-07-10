@@ -1,3 +1,4 @@
+import json
 import scrapy
 from scrapy.selector import Selector
 
@@ -9,23 +10,16 @@ class InfluencerSpider(scrapy.Spider):
     name = 'influencer'
 
     def start_requests(self):
-        countries = ['united-states']
 
-        for country in countries:
-            for i in range(1):
+        with open('username.json', 'r') as fd:
+            print(fd)
+            data = json.loads(fd.read())
+            for obj in data:
+                handle = obj['username']
                 yield scrapy.Request(
-                    f'https://starngage.com/app/global/influencer/ranking/{country}?page={i+1}',
-                    callback=self.parse_handle
+                    f'https://www.instagram.com/{handle}/',
+                    callback=self.parse_influencer
                 )
-
-    def parse_handle(self, response, **kwargs):
-        for row in response.css('table tbody tr').getall()[:10]:
-            handle = Selector(text=Selector(text=row).css('td').getall()[2]).css('a::text').get()
-            influencer_handle = handle.replace('@', '')
-            yield response.follow(
-                f'https://www.instagram.com/{influencer_handle}/',
-                self.parse_influencer
-            )
 
     def parse_influencer(self, response, **kwargs):
         parser = ig_parser.Parser()
