@@ -123,7 +123,7 @@ class InstaApiScraperDownloaderMiddleware:
 
 def _set_new_ip():
     with Controller.from_port(port=9051) as controller:
-        controller.authenticate(password='insta_pass')
+        controller.authenticate(password='<TOR_PASSWORD>')
         controller.signal(Signal.NEWNYM)
 
 class ProxyMiddleware(object):
